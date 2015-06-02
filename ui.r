@@ -1,13 +1,13 @@
 require(shiny)
 
 shinyUI(pageWithSidebar(
-  headerPanel("Example 3: animated geo chart"),
+  headerPanel("FIFA 2015 Presidential Election: A different take including FIFA ranking and corruption"),
   sidebarPanel(
     wellPanel(
       checkboxInput("weigh", strong("Weighted?"),FALSE),
       conditionalPanel(condition = "input.weigh",
                        
-                       sliderInput("weight","Corruption index (%) in weighted score",0,100,50))
+                       sliderInput("weight","Corruption index (%) in weighted score (vs. Fifa Ranking)",0,100,50))
     ),
     
     ##UEFA
@@ -247,13 +247,38 @@ shinyUI(pageWithSidebar(
       checkboxInput("SolomonIslands", "Solomon Islands",FALSE),
       checkboxInput("Tahiti", "Tahiti",FALSE),
       checkboxInput("Tonga", "Tonga",FALSE),
-      checkboxInput("Vanuatu", "Vanuatu",FALSE))  
+      checkboxInput("Vanuatu", "Vanuatu",FALSE)),
     
-  ),
+    
+    wellPanel(
+      checkboxInput("info", strong("Info"),TRUE),
+      conditionalPanel(condition = "input.info",
+                      tags$div(
+                         HTML("With this application you can select each country that (should have/thought to have) voted for <a href='http://en.wikipedia.org/wiki/Prince_Ali_bin_Hussein' target='_blank'>Prince Ali bin Hussein of Jordan</a>
+              in the <a href='http://en.wikipedia.org/wiki/65th_FIFA_Congress' target='_blank'>2015 FIFA Presidency election</a> in which it was the challenger 
+              of <a href='http://en.wikipedia.org/wiki/Sepp_Blatter' target='_blank'>Sepp Blatter</a>. 
+<br> <br> This application also gives a twist in the way the votes are counted. If you select [Weighted] each vote is corrected for the 
+              <a href='http://www.fifa.com/fifa-world-ranking/ranking-table/men/' target='_blank'>FIFA ranking</a> of each country and for
+              the <a href='http://www.transparency.org/research/cpi/overview' target='_blank'>CPI corruption index</a> of each country. The weight you give to each of these two aspects can be regulated with the slider. A higher percentage means that the corruption index receives
+              more weight, while a percentage of 0% results in the sole inclusion of the FIFA ranking. As such it is visualized what happens if we take the football legacy and corruption of countries
+              into account if they vote for the president of FIFA. The main principle should be obvious, it seems strange that 'corrupt' countries who have almost nothing to do with football, have the
+              same input as the core nations of football. 
+         <br> <br>
+         <ul><li>The pie diagram shows the percentage of (weighted) votes that each of the two candidates received.</li>
+         <li>You can select the countries, that voted for Ali, per Confederation.</li>
+         <li>In the table the information for each association is given regarding the: Confederation, Vote (-1 = Blatter; 1 = Ali), FIFA Ranking, CPI Score, relative FIFA Ranking, relative CPI Score, vote weight, weighted vote (a large negative weighted vote favours Blatter while a large positve vote favours Ali)
+</ul>
+                             
+                              <br> Note. Although the United Kingdom is shown as one the votes are counted and weighted separately for each separate association. For countries that have no CPI ranking the mean of their confederation is used")
+
+                       )
+                       
+      ))),
+      
+      mainPanel(
+        htmlOutput("gvis"),
+        htmlOutput("bar"),
+        dataTableOutput("dataout")
+      )
+    ))
   
-  mainPanel(
-    h3(textOutput("year")), 
-    htmlOutput("gvis"),
-    htmlOutput("bar")
-  )
-))

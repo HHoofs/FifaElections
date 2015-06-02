@@ -350,6 +350,8 @@ shinyServer(function(input, output) {
     if(input$Tonga) FIFA_CPI[FIFA_CPI$Country == "Tonga","vote"] <- 1
     if(input$Vanuatu) FIFA_CPI[FIFA_CPI$Country == "Vanuatu","vote"] <- 1
     
+    FIFA_CPI$vWeight <- ((input$weight/100)*FIFA_CPI$wCPI)*2 + (((100-input$weight)/100)*FIFA_CPI$wFIFA)*2
+
     FIFA_CPI$wVote <- FIFA_CPI$vote * FIFA_CPI$vWeight
     FIFA_CPI
   })
@@ -398,6 +400,14 @@ shinyServer(function(input, output) {
     if(input$weigh)  Data_bar <- data.frame(Candidate = c("Ali","Blatter"), Votes = c(sum(subset(Data_sel,vote == 1)$wVote),abs(sum(subset(Data_sel,vote == -1)$wVote))))
     
     gvisPieChart(Data_bar,options=list(slices="{0: {color: 'green'}, 1: {color: 'red'}}"))
+  })
+  
+  output$dataout <- renderDataTable({
+    data <- datageo()
+    data <- data[,c("Country","Conf","vote","Points","CPIscore0","wFIFA","wCPI","vWeight","wVote")]
+    names(data) <- c("Country","Confed.","Vote","FIFA.Ranking","CPI.Score","relative.FIFA.Ranking","relative.CPI.Score","Vote.Weight","Weighted.Vote")
+    data <- subset(data, Country != "United Kingdom")
+    data
   })
   
 #   output$summary <- renderPrint({

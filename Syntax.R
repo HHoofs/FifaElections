@@ -158,5 +158,39 @@ for(i in 1:length(sort(cafCountr))){
   cat("\n")
 }
 
+concacafCountr <- sort(CONCACAF$V3)
+
+for(i in 1:length(sort(concacafCountr))){
+  cat(paste('checkboxInput("',concacafCountr[i],'", "',concacafCountr[i],'",FALSE),',sep=""))
+  cat("\n")
+}
+
+for(i in 1:length(sort(concacafCountr))){
+  cat(paste('if(input$',gsub(" ","",concacafCountr[i]),') FIFA_CPI[FIFA_CPI$Country == "',concacafCountr[i],'","vote"] <- 1',sep=""))
+  cat("\n")
+}
+
+conmebolCountr <- sort(CONMEBOL$V3)
+
+for(i in 1:length(sort(conmebolCountr))){
+  cat(paste('checkboxInput("',conmebolCountr[i],'", "',conmebolCountr[i],'",FALSE),',sep=""))
+  cat("\n")
+}
+
+for(i in 1:length(sort(conmebolCountr))){
+  cat(paste('if(input$',gsub(" ","",conmebolCountr[i]),') FIFA_CPI[FIFA_CPI$Country == "',conmebolCountr[i],'","vote"] <- 1',sep=""))
+  cat("\n")
+}
 
 
+ofcCountr <- sort(OFC$V3)
+
+for(i in 1:length(sort(ofcCountr))){
+  cat(paste('checkboxInput("',ofcCountr[i],'", "',ofcCountr[i],'",FALSE),',sep=""))
+  cat("\n")
+}
+
+for(i in 1:length(sort(ofcCountr))){
+  cat(paste('if(input$',gsub(" ","",ofcCountr[i]),') FIFA_CPI[FIFA_CPI$Country == "',ofcCountr[i],'","vote"] <- 1',sep=""))
+  cat("\n")
+}
